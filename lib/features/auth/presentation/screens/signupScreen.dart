@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:remainder_app/core/widgets/customButton.dart';
 import 'package:remainder_app/core/widgets/customText.dart';
 import 'package:remainder_app/core/widgets/customTextfield.dart';
-import 'package:remainder_app/features/auth/presentation/screens/signupScreen.dart';
+import 'package:remainder_app/features/auth/presentation/screens/signinScreen.dart';
 
-class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<SigninScreen> createState() => _SigninScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   @override
@@ -50,10 +50,10 @@ class _SigninScreenState extends State<SigninScreen> {
   Column _headerSection(height) {
     return Column(
       children: [
-        Center(child: CustomText(text: 'Welcome back!', fontSize: 40)),
+        Center(child: CustomText(text: 'Join us today', fontSize: 40)),
         SizedBox(height: height * 0.02),
         Center(
-          child: CustomText(text: 'Please sign in to continue', fontSize: 20),
+          child: CustomText(text: 'Let’s create your account', fontSize: 20),
         ),
       ],
     );
@@ -80,7 +80,7 @@ class _SigninScreenState extends State<SigninScreen> {
           isSuffix: true,
         ),
         SizedBox(height: height * 0.03),
-        CustomButton(title: 'Sign In', ontap: () {}),
+        CustomButton(title: 'Sign Up', ontap: () {}),
       ],
     );
   }
@@ -113,19 +113,19 @@ class _SigninScreenState extends State<SigninScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomText(text: 'Don’t have an account ? '),
+        CustomText(text: 'You’re one of us! '),
         GestureDetector(
           onTap: () {
-            Navigator.pushReplacement(
+              Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return SignupScreen();
+                  return SigninScreen();
                 },
               ),
             );
           },
-          child: CustomText(text: ' Register now', color: Colors.black),
+          child: CustomText(text: ' Login to continue',color:Colors.black,)
         ),
       ],
     );
