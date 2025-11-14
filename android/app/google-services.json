@@ -12,7 +12,20 @@
           "package_name": "com.example.remainder_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "268628109433-lrgkol5429u6fm5919apqm72sj62r2tf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.remainder_app",
+            "certificate_hash": "33555b3d9845eb6aa2885989ef6af18c2159084d"
+          }
+        },
+        {
+          "client_id": "268628109433-no1b5iq8m26s9c0afu43rq49paflkd74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA8pz1Q1Ws0dkda58J23Vjh1CmW450cyS4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268628109433-no1b5iq8m26s9c0afu43rq49paflkd74.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "268628109433-1148nf89ivq5iijq46qnurvkru5hbc64.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.remainderApp"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remainder_app/core/constants/app_colors.dart';
 import 'package:remainder_app/core/widgets/customButton.dart';
 import 'package:remainder_app/core/widgets/customText.dart';
 import 'package:remainder_app/core/widgets/customTextfield.dart';
@@ -23,39 +24,61 @@ class _SigninScreenState extends State<SigninScreen> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: width * 0.1,
-              vertical: height * 0.05,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: height * 0.05),
-                _headerSection(height),
-                SizedBox(height: height * 0.05),
-                _emailPasswordSection(height),
-                SizedBox(height: height * 0.05),
-                _googleSigninSection(height),
-                SizedBox(height: height * 0.05),
-                _footerSection(height),
-              ],
-            ),
+          child: Column(
+            children: [
+              _headerSection(height, width),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.05,
+                  vertical: height * 0.03,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: height * 0.05),
+                    _emailPasswordSection(height),
+                    SizedBox(height: height * 0.01),
+                    _googleSigninSection(height),
+                    SizedBox(height: height * 0.05),
+                    _footerSection(height),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Column _headerSection(height) {
-    return Column(
-      children: [
-        Center(child: CustomText(text: 'Welcome back!', fontSize: 40)),
-        SizedBox(height: height * 0.02),
-        Center(
-          child: CustomText(text: 'Please sign in to continue', fontSize: 20),
+  Container _headerSection(height, width) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(50),
+          bottomRight: Radius.circular(50),
         ),
-      ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: height * 0.05,
+          horizontal: width * 0.05,
+        ),
+        child: Column(
+          children: [
+            Center(child: CustomText(text: 'Welcome back!', fontSize: 40,color: Colors.white,fontWeight: FontWeight.bold,)),
+            SizedBox(height: height * 0.02),
+            Center(
+              child: CustomText(
+                text: 'Please sign in to continue',
+                fontSize: 20,
+                
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -80,7 +103,7 @@ class _SigninScreenState extends State<SigninScreen> {
           isSuffix: true,
         ),
         SizedBox(height: height * 0.03),
-        CustomButton(title: 'Sign In', ontap: () {}),
+        CustomButton(title: 'Sign In', ontap: () {},),
       ],
     );
   }
@@ -98,12 +121,41 @@ class _SigninScreenState extends State<SigninScreen> {
             Expanded(child: Divider()),
           ],
         ),
-        SizedBox(height: height * 0.03),
-        CustomButton(
-          title: 'Google',
-          ontap: () {},
-          backGroundColor: Colors.red,
-          textColor: Colors.white,
+        SizedBox(height: height * 0.01),
+        GestureDetector(
+          onTap: () {
+            
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryColor.withOpacity(0.6),
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: AppColors.primaryColor, width: 3),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/google.png', width: 30, height: 30),
+                    SizedBox(width: 20),
+                    CustomText(text: 'Sign in with google '),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -125,7 +177,7 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
             );
           },
-          child: CustomText(text: ' Register now', color: Colors.black),
+          child: CustomText(text: ' Register now', color:AppColors.primaryColor ),
         ),
       ],
     );

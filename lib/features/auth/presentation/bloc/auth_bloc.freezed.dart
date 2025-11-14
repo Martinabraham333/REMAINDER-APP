@@ -55,11 +55,11 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SignInWithGoogle value)?  signInWithGoogle,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Started() when started != null:
-return started(_that);case _:
+case SignInWithGoogle() when signInWithGoogle != null:
+return signInWithGoogle(_that);case _:
   return orElse();
 
 }
@@ -77,11 +77,11 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SignInWithGoogle value)  signInWithGoogle,}){
 final _that = this;
 switch (_that) {
-case _Started():
-return started(_that);case _:
+case SignInWithGoogle():
+return signInWithGoogle(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -98,11 +98,11 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SignInWithGoogle value)?  signInWithGoogle,}){
 final _that = this;
 switch (_that) {
-case _Started() when started != null:
-return started(_that);case _:
+case SignInWithGoogle() when signInWithGoogle != null:
+return signInWithGoogle(_that);case _:
   return null;
 
 }
@@ -119,10 +119,10 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  signInWithGoogle,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Started() when started != null:
-return started();case _:
+case SignInWithGoogle() when signInWithGoogle != null:
+return signInWithGoogle();case _:
   return orElse();
 
 }
@@ -140,10 +140,10 @@ return started();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  signInWithGoogle,}) {final _that = this;
 switch (_that) {
-case _Started():
-return started();case _:
+case SignInWithGoogle():
+return signInWithGoogle();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -160,10 +160,10 @@ return started();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  signInWithGoogle,}) {final _that = this;
 switch (_that) {
-case _Started() when started != null:
-return started();case _:
+case SignInWithGoogle() when signInWithGoogle != null:
+return signInWithGoogle();case _:
   return null;
 
 }
@@ -174,8 +174,8 @@ return started();case _:
 /// @nodoc
 
 
-class _Started implements AuthEvent {
-  const _Started();
+class SignInWithGoogle implements AuthEvent {
+  const SignInWithGoogle();
   
 
 
@@ -185,7 +185,7 @@ class _Started implements AuthEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Started);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInWithGoogle);
 }
 
 
@@ -194,7 +194,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthEvent.started()';
+  return 'AuthEvent.signInWithGoogle()';
 }
 
 
@@ -206,30 +206,63 @@ String toString() {
 /// @nodoc
 mixin _$AuthState {
 
-
+ String get msg; bool get isLoading; UserEntity? get userDetails;
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>(this as AuthState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.userDetails, userDetails) || other.userDetails == userDetails));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,msg,isLoading,userDetails);
 
 @override
 String toString() {
-  return 'AuthState()';
+  return 'AuthState(msg: $msg, isLoading: $isLoading, userDetails: $userDetails)';
 }
 
 
 }
 
 /// @nodoc
-class $AuthStateCopyWith<$Res>  {
-$AuthStateCopyWith(AuthState _, $Res Function(AuthState) __);
+abstract mixin class $AuthStateCopyWith<$Res>  {
+  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
+@useResult
+$Res call({
+ String msg, bool isLoading, UserEntity? userDetails
+});
+
+
+
+
+}
+/// @nodoc
+class _$AuthStateCopyWithImpl<$Res>
+    implements $AuthStateCopyWith<$Res> {
+  _$AuthStateCopyWithImpl(this._self, this._then);
+
+  final AuthState _self;
+  final $Res Function(AuthState) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? msg = null,Object? isLoading = null,Object? userDetails = freezed,}) {
+  return _then(_self.copyWith(
+msg: null == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
+as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,userDetails: freezed == userDetails ? _self.userDetails : userDetails // ignore: cast_nullable_to_non_nullable
+as UserEntity?,
+  ));
+}
+
 }
 
 
@@ -247,11 +280,11 @@ extension AuthStatePatterns on AuthState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AuthState value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial(_that);case _:
+case _AuthState() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -269,11 +302,11 @@ return initial(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AuthState value)  $default,){
 final _that = this;
 switch (_that) {
-case _Initial():
-return initial(_that);case _:
+case _AuthState():
+return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -290,11 +323,11 @@ return initial(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AuthState value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial(_that);case _:
+case _AuthState() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -311,10 +344,10 @@ return initial(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String msg,  bool isLoading,  UserEntity? userDetails)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial();case _:
+case _AuthState() when $default != null:
+return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
   return orElse();
 
 }
@@ -332,10 +365,10 @@ return initial();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String msg,  bool isLoading,  UserEntity? userDetails)  $default,) {final _that = this;
 switch (_that) {
-case _Initial():
-return initial();case _:
+case _AuthState():
+return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -352,10 +385,10 @@ return initial();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String msg,  bool isLoading,  UserEntity? userDetails)?  $default,) {final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial();case _:
+case _AuthState() when $default != null:
+return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
   return null;
 
 }
@@ -366,33 +399,71 @@ return initial();case _:
 /// @nodoc
 
 
-class _Initial implements AuthState {
-  const _Initial();
+class _AuthState implements AuthState {
+  const _AuthState({this.msg = '', this.isLoading = false, this.userDetails});
   
 
+@override@JsonKey() final  String msg;
+@override@JsonKey() final  bool isLoading;
+@override final  UserEntity? userDetails;
 
-
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.userDetails, userDetails) || other.userDetails == userDetails));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,msg,isLoading,userDetails);
 
 @override
 String toString() {
-  return 'AuthState.initial()';
+  return 'AuthState(msg: $msg, isLoading: $isLoading, userDetails: $userDetails)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
+@override @useResult
+$Res call({
+ String msg, bool isLoading, UserEntity? userDetails
+});
 
 
+
+
+}
+/// @nodoc
+class __$AuthStateCopyWithImpl<$Res>
+    implements _$AuthStateCopyWith<$Res> {
+  __$AuthStateCopyWithImpl(this._self, this._then);
+
+  final _AuthState _self;
+  final $Res Function(_AuthState) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? msg = null,Object? isLoading = null,Object? userDetails = freezed,}) {
+  return _then(_AuthState(
+msg: null == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
+as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,userDetails: freezed == userDetails ? _self.userDetails : userDetails // ignore: cast_nullable_to_non_nullable
+as UserEntity?,
+  ));
+}
+
+
+}
 
 // dart format on

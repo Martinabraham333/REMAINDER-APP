@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remainder_app/core/constants/app_colors.dart';
 
 class CustomTextfield extends StatefulWidget {
   final String title;
@@ -51,7 +52,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
       children: [
         Text(
           widget.title,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
         TextField(
@@ -70,12 +71,20 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                 ? Icon(widget.suffix)
                 : null,
             prefixIcon: widget.isPrefix == true ? Icon(widget.prefix) : null,
-            fillColor: Colors.white,
-            filled: true,
+            // fillColor: Colors.black,
+            // filled: true,
             hint: Text(widget.hint),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color:Colors.black)
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color:Colors.black)
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color:Colors.black)
             ),
           ),
         ),

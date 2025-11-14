@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-      scaffoldBackgroundColor:const Color.fromARGB(255, 3, 134, 8)
+   
       ),
       home:  SigninScreen()
     );
