@@ -55,11 +55,13 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SignInWithGoogle value)?  signInWithGoogle,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SignInWithGoogle value)?  signInWithGoogle,TResult Function( SignInWithEmailPassword value)?  signInWithEmailPassword,TResult Function( SignUpWithEmailPassword value)?  signUpWithEmailPassword,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SignInWithGoogle() when signInWithGoogle != null:
-return signInWithGoogle(_that);case _:
+return signInWithGoogle(_that);case SignInWithEmailPassword() when signInWithEmailPassword != null:
+return signInWithEmailPassword(_that);case SignUpWithEmailPassword() when signUpWithEmailPassword != null:
+return signUpWithEmailPassword(_that);case _:
   return orElse();
 
 }
@@ -77,11 +79,13 @@ return signInWithGoogle(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SignInWithGoogle value)  signInWithGoogle,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SignInWithGoogle value)  signInWithGoogle,required TResult Function( SignInWithEmailPassword value)  signInWithEmailPassword,required TResult Function( SignUpWithEmailPassword value)  signUpWithEmailPassword,}){
 final _that = this;
 switch (_that) {
 case SignInWithGoogle():
-return signInWithGoogle(_that);case _:
+return signInWithGoogle(_that);case SignInWithEmailPassword():
+return signInWithEmailPassword(_that);case SignUpWithEmailPassword():
+return signUpWithEmailPassword(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -98,11 +102,13 @@ return signInWithGoogle(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SignInWithGoogle value)?  signInWithGoogle,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SignInWithGoogle value)?  signInWithGoogle,TResult? Function( SignInWithEmailPassword value)?  signInWithEmailPassword,TResult? Function( SignUpWithEmailPassword value)?  signUpWithEmailPassword,}){
 final _that = this;
 switch (_that) {
 case SignInWithGoogle() when signInWithGoogle != null:
-return signInWithGoogle(_that);case _:
+return signInWithGoogle(_that);case SignInWithEmailPassword() when signInWithEmailPassword != null:
+return signInWithEmailPassword(_that);case SignUpWithEmailPassword() when signUpWithEmailPassword != null:
+return signUpWithEmailPassword(_that);case _:
   return null;
 
 }
@@ -119,10 +125,12 @@ return signInWithGoogle(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  signInWithGoogle,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  signInWithGoogle,TResult Function( String email,  String password)?  signInWithEmailPassword,TResult Function( String email,  String password)?  signUpWithEmailPassword,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SignInWithGoogle() when signInWithGoogle != null:
-return signInWithGoogle();case _:
+return signInWithGoogle();case SignInWithEmailPassword() when signInWithEmailPassword != null:
+return signInWithEmailPassword(_that.email,_that.password);case SignUpWithEmailPassword() when signUpWithEmailPassword != null:
+return signUpWithEmailPassword(_that.email,_that.password);case _:
   return orElse();
 
 }
@@ -140,10 +148,12 @@ return signInWithGoogle();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  signInWithGoogle,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  signInWithGoogle,required TResult Function( String email,  String password)  signInWithEmailPassword,required TResult Function( String email,  String password)  signUpWithEmailPassword,}) {final _that = this;
 switch (_that) {
 case SignInWithGoogle():
-return signInWithGoogle();case _:
+return signInWithGoogle();case SignInWithEmailPassword():
+return signInWithEmailPassword(_that.email,_that.password);case SignUpWithEmailPassword():
+return signUpWithEmailPassword(_that.email,_that.password);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -160,10 +170,12 @@ return signInWithGoogle();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  signInWithGoogle,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  signInWithGoogle,TResult? Function( String email,  String password)?  signInWithEmailPassword,TResult? Function( String email,  String password)?  signUpWithEmailPassword,}) {final _that = this;
 switch (_that) {
 case SignInWithGoogle() when signInWithGoogle != null:
-return signInWithGoogle();case _:
+return signInWithGoogle();case SignInWithEmailPassword() when signInWithEmailPassword != null:
+return signInWithEmailPassword(_that.email,_that.password);case SignUpWithEmailPassword() when signUpWithEmailPassword != null:
+return signUpWithEmailPassword(_that.email,_that.password);case _:
   return null;
 
 }
@@ -204,9 +216,145 @@ String toString() {
 
 
 /// @nodoc
+
+
+class SignInWithEmailPassword implements AuthEvent {
+  const SignInWithEmailPassword({required this.email, required this.password});
+  
+
+ final  String email;
+ final  String password;
+
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SignInWithEmailPasswordCopyWith<SignInWithEmailPassword> get copyWith => _$SignInWithEmailPasswordCopyWithImpl<SignInWithEmailPassword>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInWithEmailPassword&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,email,password);
+
+@override
+String toString() {
+  return 'AuthEvent.signInWithEmailPassword(email: $email, password: $password)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SignInWithEmailPasswordCopyWith<$Res> implements $AuthEventCopyWith<$Res> {
+  factory $SignInWithEmailPasswordCopyWith(SignInWithEmailPassword value, $Res Function(SignInWithEmailPassword) _then) = _$SignInWithEmailPasswordCopyWithImpl;
+@useResult
+$Res call({
+ String email, String password
+});
+
+
+
+
+}
+/// @nodoc
+class _$SignInWithEmailPasswordCopyWithImpl<$Res>
+    implements $SignInWithEmailPasswordCopyWith<$Res> {
+  _$SignInWithEmailPasswordCopyWithImpl(this._self, this._then);
+
+  final SignInWithEmailPassword _self;
+  final $Res Function(SignInWithEmailPassword) _then;
+
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
+  return _then(SignInWithEmailPassword(
+email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class SignUpWithEmailPassword implements AuthEvent {
+  const SignUpWithEmailPassword({required this.email, required this.password});
+  
+
+ final  String email;
+ final  String password;
+
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SignUpWithEmailPasswordCopyWith<SignUpWithEmailPassword> get copyWith => _$SignUpWithEmailPasswordCopyWithImpl<SignUpWithEmailPassword>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignUpWithEmailPassword&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,email,password);
+
+@override
+String toString() {
+  return 'AuthEvent.signUpWithEmailPassword(email: $email, password: $password)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SignUpWithEmailPasswordCopyWith<$Res> implements $AuthEventCopyWith<$Res> {
+  factory $SignUpWithEmailPasswordCopyWith(SignUpWithEmailPassword value, $Res Function(SignUpWithEmailPassword) _then) = _$SignUpWithEmailPasswordCopyWithImpl;
+@useResult
+$Res call({
+ String email, String password
+});
+
+
+
+
+}
+/// @nodoc
+class _$SignUpWithEmailPasswordCopyWithImpl<$Res>
+    implements $SignUpWithEmailPasswordCopyWith<$Res> {
+  _$SignUpWithEmailPasswordCopyWithImpl(this._self, this._then);
+
+  final SignUpWithEmailPassword _self;
+  final $Res Function(SignUpWithEmailPassword) _then;
+
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
+  return _then(SignUpWithEmailPassword(
+email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$AuthState {
 
- String get msg; bool get isLoading; UserEntity? get userDetails;
+ String get msg; bool get isLoading; bool get isSuccess; ActionType get actionType; UserEntity? get userDetails;
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -217,16 +365,16 @@ $AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.userDetails, userDetails) || other.userDetails == userDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSuccess, isSuccess) || other.isSuccess == isSuccess)&&(identical(other.actionType, actionType) || other.actionType == actionType)&&(identical(other.userDetails, userDetails) || other.userDetails == userDetails));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,msg,isLoading,userDetails);
+int get hashCode => Object.hash(runtimeType,msg,isLoading,isSuccess,actionType,userDetails);
 
 @override
 String toString() {
-  return 'AuthState(msg: $msg, isLoading: $isLoading, userDetails: $userDetails)';
+  return 'AuthState(msg: $msg, isLoading: $isLoading, isSuccess: $isSuccess, actionType: $actionType, userDetails: $userDetails)';
 }
 
 
@@ -237,7 +385,7 @@ abstract mixin class $AuthStateCopyWith<$Res>  {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
 @useResult
 $Res call({
- String msg, bool isLoading, UserEntity? userDetails
+ String msg, bool isLoading, bool isSuccess, ActionType actionType, UserEntity? userDetails
 });
 
 
@@ -254,11 +402,13 @@ class _$AuthStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? msg = null,Object? isLoading = null,Object? userDetails = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? msg = null,Object? isLoading = null,Object? isSuccess = null,Object? actionType = null,Object? userDetails = freezed,}) {
   return _then(_self.copyWith(
 msg: null == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
 as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,userDetails: freezed == userDetails ? _self.userDetails : userDetails // ignore: cast_nullable_to_non_nullable
+as bool,isSuccess: null == isSuccess ? _self.isSuccess : isSuccess // ignore: cast_nullable_to_non_nullable
+as bool,actionType: null == actionType ? _self.actionType : actionType // ignore: cast_nullable_to_non_nullable
+as ActionType,userDetails: freezed == userDetails ? _self.userDetails : userDetails // ignore: cast_nullable_to_non_nullable
 as UserEntity?,
   ));
 }
@@ -344,10 +494,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String msg,  bool isLoading,  UserEntity? userDetails)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String msg,  bool isLoading,  bool isSuccess,  ActionType actionType,  UserEntity? userDetails)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AuthState() when $default != null:
-return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
+return $default(_that.msg,_that.isLoading,_that.isSuccess,_that.actionType,_that.userDetails);case _:
   return orElse();
 
 }
@@ -365,10 +515,10 @@ return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String msg,  bool isLoading,  UserEntity? userDetails)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String msg,  bool isLoading,  bool isSuccess,  ActionType actionType,  UserEntity? userDetails)  $default,) {final _that = this;
 switch (_that) {
 case _AuthState():
-return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
+return $default(_that.msg,_that.isLoading,_that.isSuccess,_that.actionType,_that.userDetails);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -385,10 +535,10 @@ return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String msg,  bool isLoading,  UserEntity? userDetails)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String msg,  bool isLoading,  bool isSuccess,  ActionType actionType,  UserEntity? userDetails)?  $default,) {final _that = this;
 switch (_that) {
 case _AuthState() when $default != null:
-return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
+return $default(_that.msg,_that.isLoading,_that.isSuccess,_that.actionType,_that.userDetails);case _:
   return null;
 
 }
@@ -400,11 +550,13 @@ return $default(_that.msg,_that.isLoading,_that.userDetails);case _:
 
 
 class _AuthState implements AuthState {
-  const _AuthState({this.msg = '', this.isLoading = false, this.userDetails});
+  const _AuthState({this.msg = '', this.isLoading = false, this.isSuccess = false, this.actionType = ActionType.none, this.userDetails});
   
 
 @override@JsonKey() final  String msg;
 @override@JsonKey() final  bool isLoading;
+@override@JsonKey() final  bool isSuccess;
+@override@JsonKey() final  ActionType actionType;
 @override final  UserEntity? userDetails;
 
 /// Create a copy of AuthState
@@ -417,16 +569,16 @@ _$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.userDetails, userDetails) || other.userDetails == userDetails));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSuccess, isSuccess) || other.isSuccess == isSuccess)&&(identical(other.actionType, actionType) || other.actionType == actionType)&&(identical(other.userDetails, userDetails) || other.userDetails == userDetails));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,msg,isLoading,userDetails);
+int get hashCode => Object.hash(runtimeType,msg,isLoading,isSuccess,actionType,userDetails);
 
 @override
 String toString() {
-  return 'AuthState(msg: $msg, isLoading: $isLoading, userDetails: $userDetails)';
+  return 'AuthState(msg: $msg, isLoading: $isLoading, isSuccess: $isSuccess, actionType: $actionType, userDetails: $userDetails)';
 }
 
 
@@ -437,7 +589,7 @@ abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Re
   factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
 @override @useResult
 $Res call({
- String msg, bool isLoading, UserEntity? userDetails
+ String msg, bool isLoading, bool isSuccess, ActionType actionType, UserEntity? userDetails
 });
 
 
@@ -454,11 +606,13 @@ class __$AuthStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? msg = null,Object? isLoading = null,Object? userDetails = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? msg = null,Object? isLoading = null,Object? isSuccess = null,Object? actionType = null,Object? userDetails = freezed,}) {
   return _then(_AuthState(
 msg: null == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
 as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,userDetails: freezed == userDetails ? _self.userDetails : userDetails // ignore: cast_nullable_to_non_nullable
+as bool,isSuccess: null == isSuccess ? _self.isSuccess : isSuccess // ignore: cast_nullable_to_non_nullable
+as bool,actionType: null == actionType ? _self.actionType : actionType // ignore: cast_nullable_to_non_nullable
+as ActionType,userDetails: freezed == userDetails ? _self.userDetails : userDetails // ignore: cast_nullable_to_non_nullable
 as UserEntity?,
   ));
 }

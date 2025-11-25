@@ -1,93 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remainder_app/core/constants/app_colors.dart';
 
-class CustomTextfield extends StatefulWidget {
-  final String title;
-  final String hint;
+import 'package:remainder_app/core/widgets/customText.dart';
+
+class CustomTextField extends StatelessWidget {
+  final String? Function(String?)? validator;
   final TextEditingController controller;
+  final String? hintText;
+  final String? title;
+  final IconData? icon;
+  final double widthSize;
+  final bool? readonly;
+  final int maxLines;
   final VoidCallback? ontap;
-  final bool isReadOnly;
-  final bool isSuffix;
-  final bool isPrefix;
-  final bool isPassword;
-  final IconData? prefix;
-  final IconData? suffix;
-  CustomTextfield({
-    super.key,
-    required this.title,
-    required this.hint,
+  final Function(String)? onChanged;
+  final bool isObscureText;
+
+  const CustomTextField({
     required this.controller,
+    required this.hintText,
+    required this.title,
+    this.widthSize = double.infinity,
+    this.icon,
+    this.readonly,
     this.ontap,
-    this.isReadOnly = false,
-    this.isSuffix = false,
-    this.isPrefix = false,
-    this.prefix,
-    this.suffix,
-    this.isPassword = false,
+    this.maxLines = 1,
+    this.onChanged,
+    this.validator,
+    this.isObscureText = false,
   });
-
-  @override
-  State<CustomTextfield> createState() => _CustomTextfieldState();
-}
-
-class _CustomTextfieldState extends State<CustomTextfield> {
-  bool isObscureText = false;
-
-  @override
-  void initState() {
-    isObscureText = widget.isPassword;
-    super.initState();
-  }
-
-  _togglePasswordVisibility() {
-    setState(() {
-      isObscureText = !isObscureText;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: CustomText(text: title!),
         ),
-        SizedBox(height: 10),
-        TextField(
+
+        TextFormField(
+          validator: validator,
           obscureText: isObscureText,
-          readOnly: widget.isReadOnly,
-          controller: widget.controller,
+          onChanged: onChanged,
+          maxLines: maxLines,
+          readOnly: readonly ?? false,
+          cursorColor: Colors.black,
+          controller: controller,
+          style: TextStyle(color: Colors.black),
           decoration: InputDecoration(
-            suffixIcon: widget.isSuffix == true && widget.suffix == null
-                ? GestureDetector(
-                    onTap: _togglePasswordVisibility,
-                    child: widget.isPassword == true && isObscureText == true
-                        ? Icon(Icons.visibility_off)
-                        : Icon(Icons.visibility),
-                  )
-                : widget.isSuffix == true && widget.suffix != null
-                ? Icon(widget.suffix)
-                : null,
-            prefixIcon: widget.isPrefix == true ? Icon(widget.prefix) : null,
-            // fillColor: Colors.black,
-            // filled: true,
-            hint: Text(widget.hint),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color:Colors.black)
+            hintStyle: TextStyle(color: Colors.grey),
+            hintText: hintText,
+            border: InputBorder.none,
+            suffixIcon: GestureDetector(
+              onTap: ontap,
+              child: Icon(icon, color: AppColors.primaryColor),
             ),
-            focusedBorder: OutlineInputBorder(
+            errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color:Colors.black)
+              borderSide: BorderSide(color: Colors.red),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.red),
             ),
             enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color:Colors.black)
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+              borderRadius: BorderRadius.circular(20),
             ),
           ),
         ),
+        SizedBox(height: 20),
       ],
     );
   }

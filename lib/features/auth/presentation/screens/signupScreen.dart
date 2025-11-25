@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remainder_app/core/constants/app_colors.dart';
+import 'package:remainder_app/core/utils/snackbar_utils.dart';
 import 'package:remainder_app/core/widgets/customButton.dart';
 import 'package:remainder_app/core/widgets/customText.dart';
 import 'package:remainder_app/core/widgets/customTextfield.dart';
+import 'package:remainder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:remainder_app/features/auth/presentation/screens/signinScreen.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:remainder_app/features/remainders/presentation/screens/home_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -20,39 +22,15 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-  Future _signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser != null) {
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        final UserCredential userCredential = await _auth.signInWithCredential(
-          credential,
-        );
-        if (userCredential.user != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return HomeScreen();
-              },
-            ),
-          );
-        }
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print(e);
-      return null;
-    }
+  final GlobalKey<FormState> _signUpKey = GlobalKey<FormState>();
+  bool isObscureTextPassword = true;
+  bool isObscureTextConfirmPassword = true;
+  @override
+  void initState() {
+    _emailController.text = 'martinmangalagiri@gmail.com';
+    _passwordController.text = '12345678';
+    _confirmPasswordController.text = '12345678';
+    super.initState();
   }
 
   @override
@@ -61,30 +39,62 @@ class _SignupScreenState extends State<SignupScreen> {
     final width = size.width;
     final height = size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _headerSection(height, width),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.05,
-                  vertical: height * 0.03,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: height * 0.05),
-                    _emailPasswordSection(height),
-                    SizedBox(height: height * 0.01),
-                    _googleSigninSection(height),
-                    SizedBox(height: height * 0.05),
-                    _footerSection(height),
-                  ],
-                ),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoading == false && state.isSuccess == true) {
+          if (state.actionType == ActionType.googleSignIn) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return HomeScreen();
+                },
               ),
-            ],
+            );
+            showSuccessSnack(context, state.msg);
+          }
+          if (state.actionType == ActionType.emailPasswordSignUp) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SigninScreen();
+                },
+              ),
+            );
+            showSuccessSnack(context, state.msg);
+          }
+        }
+
+        if (state.isLoading == false && state.isSuccess == false) {
+          showErrorSnack(context, state.msg);
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                _headerSection(height, width),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.05,
+                    vertical: height * 0.03,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: height * 0.05),
+                      _emailPasswordSection(height),
+                      SizedBox(height: height * 0.01),
+                      _googleSigninSection(height),
+                      SizedBox(height: height * 0.05),
+                      _footerSection(height),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -128,40 +138,119 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Column _emailPasswordSection(height) {
-    return Column(
-      children: [
-        CustomTextfield(
-          title: 'Email',
-          hint: 'Enter Email',
-          controller: _emailController,
-          isPrefix: true,
-          prefix: Icons.email_sharp,
-        ),
-        SizedBox(height: height * 0.03),
-        CustomTextfield(
-          title: 'Password',
-          hint: 'Enter Password',
-          controller: _passwordController,
-          isPrefix: true,
-          prefix: Icons.lock,
-          isPassword: true,
-          isSuffix: true,
-        ),
-        SizedBox(height: height * 0.03),
-        CustomTextfield(
-          title: 'Confirm Password',
-          hint: 'Enter Password',
-          controller: _confirmPasswordController,
-          isPrefix: true,
-          prefix: Icons.lock,
-          isPassword: true,
-          isSuffix: true,
-        ),
-        SizedBox(height: height * 0.03),
-        CustomButton(title: 'Sign Up', ontap: () {}),
-      ],
+  Form _emailPasswordSection(height) {
+    return Form(
+      key: _signUpKey,
+      child: Column(
+        children: [
+          CustomTextField(
+            title: 'Email',
+            hintText: 'Enter Email',
+            controller: _emailController,
+
+            validator: (p0) {
+              final String? msg = emailValidation();
+              return msg;
+            },
+          ),
+          SizedBox(height: height * 0.03),
+          CustomTextField(
+            title: 'Password',
+            hintText: 'Enter Password',
+            controller: _passwordController,
+
+            isObscureText: isObscureTextPassword,
+            validator: (value) {
+              final String? msg = passwordValidation();
+              return msg;
+            },
+
+            icon: isObscureTextPassword == true
+                ? Icons.visibility_off
+                : Icons.visibility,
+
+            ontap: () {
+              setState(() {
+                isObscureTextPassword = !isObscureTextPassword;
+              });
+            },
+          ),
+          SizedBox(height: height * 0.03),
+          CustomTextField(
+            title: 'Confirm Password',
+            hintText: 'Enter Password',
+            controller: _confirmPasswordController,
+            isObscureText: isObscureTextConfirmPassword,
+
+            validator: (p0) {
+              final String? msg = confirmPasswordValidation();
+              return msg;
+            },
+
+            icon: isObscureTextConfirmPassword == true
+                ? Icons.visibility_off
+                : Icons.visibility,
+
+            ontap: () {
+              setState(() {
+                isObscureTextConfirmPassword = !isObscureTextConfirmPassword;
+              });
+            },
+          ),
+          SizedBox(height: height * 0.03),
+          CustomButton(
+            title: 'Sign Up',
+            ontap: () {
+              if (_signUpKey.currentState!.validate()) {
+                context.read<AuthBloc>().add(
+                  AuthEvent.signUpWithEmailPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
+  }
+
+  String? passwordValidation() {
+    if (_passwordController.text.isEmpty) {
+      return 'Password cannot be empty';
+    }
+    if (_passwordController.text.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+
+    return null;
+  }
+
+  String? confirmPasswordValidation() {
+    if (_confirmPasswordController.text.isEmpty) {
+      return 'Confirm Password cannot be empty';
+    }
+
+    if (_passwordController.text != _confirmPasswordController.text) {
+      return 'Password Mismatch';
+    }
+
+    return null;
+  }
+
+  String? emailValidation() {
+    const pattern = r'^[^@\s]+@[^@\s]+\.[^@\s]+$';
+
+    final regex = RegExp(pattern);
+
+    if (_emailController.text.isEmpty) {
+      return 'Email cannot be empty';
+    }
+    if (!regex.hasMatch(_emailController.text.trim())) {
+      return "Enter a valid email address";
+    }
+    return null;
   }
 
   Column _googleSigninSection(height) {
@@ -180,7 +269,7 @@ class _SignupScreenState extends State<SignupScreen> {
         SizedBox(height: height * 0.01),
         GestureDetector(
           onTap: () async {
-            await _signInWithGoogle();
+            context.read<AuthBloc>().add(AuthEvent.signInWithGoogle());
           },
           child: Container(
             decoration: BoxDecoration(

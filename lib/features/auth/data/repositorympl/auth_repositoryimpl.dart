@@ -1,41 +1,88 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
-import 'package:remainder_app/core/failure.dart';
+import 'package:flutter/foundation.dart';
+import 'package:remainder_app/core/error/failure.dart';
+import 'package:remainder_app/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:remainder_app/features/auth/domain/entity/user_entity.dart';
 import 'package:remainder_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepositoryimpl extends AuthRepository {
-  final FirebaseAuth firebaseAuth;
-  final GoogleSignIn googleSignIn;
-  AuthRepositoryimpl({required this.firebaseAuth, required this.googleSignIn});
+  final AuthRemoteDatasource authRemoteDatasource;
+  AuthRepositoryimpl(this.authRemoteDatasource);
+
+  @override
+  Future<Either<Failure, UserEntity>> signInWithEmailPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final result = await authRemoteDatasource.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return Right(result);
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      return Left(ServerFailure(e.message ?? 'Server issue'));
+    } on SocketException catch (e) {
+      debugPrint(e.message);
+      return Left(NetworkFailure('No Internet Connection'));
+    } on TimeoutException catch (e) {
+      debugPrint(e.message);
+      return Left(CancelledFailure('Request Timed Out'));
+    } catch (e) {
+      debugPrint(e.toString());
+      return Left(UnknownFailure('Sign in failed'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signUpWithEmailPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final result = await authRemoteDatasource.signUpWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return Right(result);
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      return Left(ServerFailure(e.message ?? 'Server issue'));
+    } on SocketException catch (e) {
+      debugPrint(e.message);
+      return Left(NetworkFailure('No Internet Connection'));
+    } on TimeoutException catch (e) {
+      debugPrint(e.message);
+      return Left(CancelledFailure('Request Timed Out'));
+    } catch (e) {
+      debugPrint(e.toString());
+      return Left(UnknownFailure('Sign up failed'));
+    }
+  }
+
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
-      final googleUser = await googleSignIn.signIn();
-      if (googleUser == null) {
-        return Left(CancelledFailure('Sign in cancelled'));
-      }
-      final googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      final userCredential = await firebaseAuth.signInWithCredential(
-        credential,
-      );
-      final user = userCredential.user;
-      if (user == null) {
-        return Left(Failure('User not found'));
-      }
-      final userEntity = UserEntity(
-        userName: user.displayName!,
-        userId: user.uid,
-        email: user.email!,
-      );
-      return Right(userEntity);
+      final result = await authRemoteDatasource.signInWithGoogle();
+      return Right(result);
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+
+      return Left(ServerFailure(e.message ?? 'Server issue'));
+    } on SocketException catch (e) {
+      debugPrint(e.message);
+      return Left(NetworkFailure('No Internet Connection'));
+    } on TimeoutException catch (e) {
+      debugPrint(e.message);
+      return Left(CancelledFailure('Request Timed Out'));
     } catch (e) {
-      return Left(UnknownFailure(e.toString()));
+      debugPrint(e.toString());
+      return Left(UnknownFailure('Google Sign in failed'));
     }
   }
 }

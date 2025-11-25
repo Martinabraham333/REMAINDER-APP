@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AddRemainderScreen extends StatefulWidget {
-  const AddRemainderScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<AddRemainderScreen> createState() => _AddRemainderScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _AddRemainderScreenState extends State<AddRemainderScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
