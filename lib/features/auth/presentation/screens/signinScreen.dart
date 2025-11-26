@@ -23,8 +23,9 @@ class _SigninScreenState extends State<SigninScreen> {
       bool isObscureText = true;
   @override
   void initState() {
-    _emailController.text = 'power2rangers123@gmail.com';
-    _passwordController.text = 'shan12345678';
+    _emailController.text = 'martinmangalagiri@gmail.com';
+    // _emailController.text = 'power2rangers123@gmail.com';
+    _passwordController.text = '12345678';
     super.initState();
   }
 

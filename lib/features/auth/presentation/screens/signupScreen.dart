@@ -28,6 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     _emailController.text = 'martinmangalagiri@gmail.com';
+    //  _emailController.text = 'power2rangers123@gmail.com';
     _passwordController.text = '12345678';
     _confirmPasswordController.text = '12345678';
     super.initState();

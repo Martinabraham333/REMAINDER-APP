@@ -23,6 +23,7 @@ dependencies:
   google_sign_in: ^6.2.1
   firebase_auth: ^6.1.2
   dartz: ^0.10.1
+  cloud_firestore: ^6.1.0
 
 dev_dependencies:
   flutter_test:
