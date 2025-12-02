@@ -1,6 +1,6 @@
 part of 'auth_bloc.dart';
 
-enum ActionType{emailPasswordSignIn,emailPasswordSignUp,googleSignIn,none}
+enum ActionType{emailPasswordSignIn,emailPasswordSignUp,googleSignIn,signOut,none}
 @freezed
 abstract class AuthState with _$AuthState {
   const factory AuthState({

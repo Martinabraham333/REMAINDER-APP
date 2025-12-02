@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:remainder_app/core/constants/app_colors.dart';
 
-import 'package:remainder_app/core/widgets/customText.dart';
+import 'package:remainder_app/core/widgets/custom_text.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;

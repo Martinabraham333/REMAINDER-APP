@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remainder_app/core/constants/app_colors.dart';
 import 'package:remainder_app/core/utils/snackbar_utils.dart';
-import 'package:remainder_app/core/widgets/customButton.dart';
-import 'package:remainder_app/core/widgets/customText.dart';
-import 'package:remainder_app/core/widgets/customTextfield.dart';
+import 'package:remainder_app/core/widgets/custom_button.dart';
+import 'package:remainder_app/core/widgets/custom_text.dart';
+import 'package:remainder_app/core/widgets/custom_textfield.dart';
 import 'package:remainder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:remainder_app/features/auth/presentation/screens/signinScreen.dart';
 
@@ -28,7 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     _emailController.text = 'martinmangalagiri@gmail.com';
-    //  _emailController.text = 'power2rangers123@gmail.com';
+  //  _emailController.text = 'power2rangers123@gmail.com';
     _passwordController.text = '12345678';
     _confirmPasswordController.text = '12345678';
     super.initState();

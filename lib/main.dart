@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +12,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    MultiBlocProvider(providers: [
-     BlocProvider(create: (context) =>di.sl<AuthBloc>(),)
-    ], child: const MyApp())
-   ,
+    MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => di.sl<AuthBloc>())],
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -27,7 +28,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(),
       home: SigninScreen(),
-   
     );
   }
 }

@@ -19,7 +19,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInWithGoogle>(_signInWithGoogle);
     on<SignInWithEmailPassword>(_signInWithEmailPassword);
     on<SignUpWithEmailPassword>(_signUpWithEmailPassword);
+    on<SignOut>(_signOut);
   }
+  _signOut(SignOut event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(isLoading: true, actionType: ActionType.signOut));
+    final result = await usecaseGoogleSignin.call();
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            msg: failure.message,
+            actionType: ActionType.signOut,
+            isSuccess: false,
+          ),
+        );
+      },
+      (result) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+       
+            msg: 'Signed out successfully',
+            actionType: ActionType.signOut,
+            isSuccess: true,
+          ),
+        );
+      },
+    );
+  }
+
   _signInWithGoogle(SignInWithGoogle event, Emitter<AuthState> emit) async {
     emit(state.copyWith(isLoading: true, actionType: ActionType.googleSignIn));
     final result = await usecaseGoogleSignin.call();
@@ -65,7 +94,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) {
-     
         emit(
           state.copyWith(
             isLoading: false,
@@ -76,7 +104,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
       (result) {
-       
         emit(
           state.copyWith(
             isLoading: false,
@@ -94,7 +121,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     SignUpWithEmailPassword event,
     Emitter<AuthState> emit,
   ) async {
-
     emit(
       state.copyWith(
         isLoading: true,

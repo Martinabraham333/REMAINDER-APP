@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:remainder_app/core/constants/app_colors.dart';
 import 'package:remainder_app/core/utils/snackbar_utils.dart';
-import 'package:remainder_app/core/widgets/customButton.dart';
-import 'package:remainder_app/core/widgets/customText.dart';
-import 'package:remainder_app/core/widgets/customTextfield.dart';
+import 'package:remainder_app/core/widgets/custom_button.dart';
+import 'package:remainder_app/core/widgets/custom_text.dart';
+import 'package:remainder_app/core/widgets/custom_textfield.dart';
 import 'package:remainder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:remainder_app/features/auth/presentation/screens/signupScreen.dart';
 import 'package:remainder_app/features/remainders/presentation/screens/home_screen.dart';
@@ -20,7 +20,7 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _signInKey = GlobalKey<FormState>();
-      bool isObscureText = true;
+  bool isObscureText = true;
   @override
   void initState() {
     _emailController.text = 'martinmangalagiri@gmail.com';
@@ -50,6 +50,8 @@ class _SigninScreenState extends State<SigninScreen> {
             );
             showSuccessSnack(context, state.msg);
           }
+
+        
         }
         if (state.isLoading == false && state.isSuccess == false) {
           {
@@ -151,7 +153,6 @@ class _SigninScreenState extends State<SigninScreen> {
   }
 
   Form _emailPasswordSection(height) {
-
     return Form(
       key: _signInKey,
       child: Column(
@@ -172,7 +173,9 @@ class _SigninScreenState extends State<SigninScreen> {
             hintText: 'Enter Password',
             controller: _passwordController,
             isObscureText: isObscureText,
-            icon: isObscureText==true ?Icons.visibility_off :Icons.visibility,
+            icon: isObscureText == true
+                ? Icons.visibility_off
+                : Icons.visibility,
 
             ontap: () {
               setState(() {

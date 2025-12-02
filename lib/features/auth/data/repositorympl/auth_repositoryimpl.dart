@@ -85,4 +85,27 @@ class AuthRepositoryimpl extends AuthRepository {
       return Left(UnknownFailure('Google Sign in failed'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> signOut() async {
+    try {
+      await authRemoteDatasource.signOut();
+      return Right(true);
+    }
+    on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+
+      return Left(ServerFailure(e.message ?? 'Server issue'));
+    } on SocketException catch (e) {
+      debugPrint(e.message);
+      return Left(NetworkFailure('No Internet Connection'));
+    } on TimeoutException catch (e) {
+      debugPrint(e.message);
+      return Left(CancelledFailure('Request Timed Out'));
+    } catch (e) {
+      debugPrint(e.toString());
+      return Left(UnknownFailure('Sign Out failed'));
+    }
+  
+  }
 }
